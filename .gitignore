@@ -10,6 +10,7 @@ pids
 
 # Binary
 dist
+types
 
 # IDE
 .idea

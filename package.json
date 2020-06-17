@@ -1,28 +1,34 @@
 {
   "name": "cookie-consent",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "",
   "keywords": [],
   "main": "dist/cookie-consent.umd.js",
+  "unpkg": "dist/cookie-consent.umd.js",
   "module": "dist/cookie-consent.esm.js",
   "source": "src/index.js",
-  "typings": "dist/types/index.d.ts",
+  "types": "types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "types"
   ],
   "author": "Anowlet",
   "repository": {
     "type": "git",
-    "url": "git@github.com:anowlet/cookie-consent.git"
+    "url": "https://github.com/anowlet/cookie-consent.git"
   },
   "license": "MIT",
   "engines": {
     "node": ">=10.18"
   },
   "scripts": {
-    "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.ts",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --fix --ext .ts,.tsx,.js,.jsx",
+    "format": "prettier --write \"{src,test}/**/*.{js,ts}\" \"**/*.md\"",
+    "format:check": "prettier --list-different \"{src,test}/**/*.{js,ts}\" \"**/*.md\"",
+    "prebuild": "rimraf lib dist es coverage types",
+    "build": "cross-env rollup -c rollup.config.ts",
     "start": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w",
     "typedoc": "typedoc --out docs --target es6 --theme minimal --mode file src",
     "test": "jest --coverage",
@@ -32,7 +38,10 @@
     "commit": "git-cz",
     "release": "semantic-release",
     "semantic-release-prepare": "ts-node scripts/semantic-release-prepare",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepush": "npm run test:prod && npm run build",
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
+    "semantic-release": "semantic-release"
   },
   "husky": {
     "hooks": {

@@ -144,7 +144,6 @@ export default class Interface extends Base {
     function modalTabGroups() {
       let contentItems = [];
 
-      let i = 0;
       for (let key in options.categories) {
         contentItems.push(
           el(
@@ -208,8 +207,6 @@ export default class Interface extends Base {
             ),
           ),
         );
-
-        i++;
       }
 
       return contentItems;
@@ -400,7 +397,7 @@ export default class Interface extends Base {
       );
 
     // If you click close on open modal
-    this.elements['modal'].querySelector('.ccm__cheading__close').addEventListener('click', (event: any) => {
+    this.elements['modal'].querySelector('.ccm__cheading__close').addEventListener('click', () => {
       this.elements['modal'].classList.remove('ccm--visible');
     });
 

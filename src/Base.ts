@@ -2,7 +2,7 @@ import Utilities from './Utilities';
 import loMerge from 'lodash/merge';
 import defaultOptions from './options';
 
-interface IOptions {
+export interface IOptions {
   // 是否激活
   active: boolean;
   // 唯一标识 cookie 是否已存在
@@ -28,7 +28,7 @@ interface IOptions {
   test?: string;
 }
 
-interface Buffer {
+export interface Buffer {
   appendChild: any[];
   insertBefore: any[];
 }

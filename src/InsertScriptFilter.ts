@@ -12,7 +12,7 @@ export default class InsertScriptFilter extends Filter {
 
   overrideAppendChild() {
     const {buffer, options} = this;
-    Element.prototype.appendChild = function <T extends Node>(newChild: any): any {
+    Element.prototype.appendChild = function (newChild: any): any {
       if (newChild && newChild.tagName === 'SCRIPT') {
         // console.log('Appending:', newChild);
         for (let key in options.services) {
@@ -38,7 +38,7 @@ export default class InsertScriptFilter extends Filter {
 
   overrideInsertBefore() {
     const {buffer, options} = this;
-    Element.prototype.insertBefore = function <T extends Node>(newChild: any, refChild: Node | null): any {
+    Element.prototype.insertBefore = function (newChild: any, refChild: Node | null): any {
       if (newChild.tagName === 'SCRIPT') {
         console.log('Inserting:', newChild, buffer);
         for (let key in options.services) {

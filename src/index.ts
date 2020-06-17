@@ -6,7 +6,7 @@ import Interface from './Interface';
 import Base from './Base';
 import RemoveCookies from './RemoveCookies';
 
-export default class Scio extends Base {
+export default class CookieConsent extends Base {
   wrapper: ((name: string | undefined, callback: () => void) => void) | undefined;
   constructor(configObject: any) {
     super(configObject);

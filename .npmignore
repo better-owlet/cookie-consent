@@ -15,11 +15,9 @@ coverage/
 examples/
 jest.config.js
 node_modules/
-out/
 package-lock.json
 postcss.config.js
-release.config.js
-rollup.config.js
+.releaserc
+rollup.config.ts
 scripts/
-src/
 test/

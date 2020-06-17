@@ -15,8 +15,8 @@ async function getConfig() {
   const config = {
     input: `src/index.ts`,
     output: [
-      {file: pkg.main, name: 'CookieConsent', format: 'umd', sourcemap: true},
-      {file: pkg.module, format: 'es', sourcemap: true},
+      {file: pkg.main, name: 'CookieConsent', format: 'umd'},
+      {file: pkg.module, format: 'es', indent: false},
     ],
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
     external: [],
@@ -55,7 +55,6 @@ async function getConfig() {
         openPage: '/examples/index.html',
         contentBase: '',
         port: 2046,
-        host: '0.0.0.0',
       }),
       livereload({verbose: false}),
     ];
