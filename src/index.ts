@@ -11,17 +11,17 @@ export default class CookieConsent extends Base {
   constructor(configObject: any) {
     super(configObject);
 
-    this.init();
+    this.init(configObject);
   }
 
-  init() {
+  init(configObject: {} | undefined) {
     console.log('init-----');
 
-    const removeCookies = new RemoveCookies(this.options);
-    const insertScriptFilter = new InsertScriptFilter(this.options);
-    const scriptTagFilter = new ScriptTagFilter(this.options);
-    const wrapperFilter = new WrapperFilter(this.options);
-    const localCookieFilter = new LocalCookieFilter(this.options);
+    const removeCookies = new RemoveCookies(configObject);
+    const insertScriptFilter = new InsertScriptFilter(configObject);
+    const scriptTagFilter = new ScriptTagFilter(configObject);
+    const wrapperFilter = new WrapperFilter(configObject);
+    const localCookieFilter = new LocalCookieFilter(configObject);
 
     removeCookies.init();
     insertScriptFilter.init();
@@ -29,7 +29,7 @@ export default class CookieConsent extends Base {
     wrapperFilter.init();
     localCookieFilter.init();
 
-    const UI = new Interface(this.options);
+    const UI = new Interface(configObject);
     this.wrapper = wrapperFilter.wrapper;
     UI.buildInterface(() => {
       UI.addEventListeners();
