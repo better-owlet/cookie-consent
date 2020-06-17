@@ -10,18 +10,19 @@ export default class InsertScriptFilter extends Filter {
     this.overrideInsertBefore();
   }
 
-  overrideAppendChild = () => {
-    Element.prototype.appendChild = <T extends Node>(newChild: any): any => {
+  overrideAppendChild() {
+    const {buffer, options} = this;
+    Element.prototype.appendChild = function <T extends Node>(newChild: any): any {
       if (newChild && newChild.tagName === 'SCRIPT') {
-        console.log('Appending:', newChild);
-        for (let key in this.options.services) {
+        // console.log('Appending:', newChild);
+        for (let key in options.services) {
           // Did user opt-in?
-          if (this.options.services[key].type === 'dynamic-script') {
-            if (newChild.outerHTML.indexOf(this.options.services[key].search) >= 0) {
-              if (this.options.categories[this.options.services[key].category].wanted === false) {
-                this.buffer.appendChild.push({
+          if (options.services[key].type === 'dynamic-script') {
+            if (newChild.outerHTML.indexOf(options.services[key].search) >= 0) {
+              if (options.categories[options.services[key].category].wanted === false) {
+                buffer.appendChild.push({
                   this: this,
-                  category: this.options.services[key].category,
+                  category: options.services[key].category,
                   arguments: newChild,
                 });
                 return undefined;
@@ -31,24 +32,23 @@ export default class InsertScriptFilter extends Filter {
         }
       }
 
-      console.log('overrideAppendChild', newChild);
-
       return Node.prototype.appendChild.apply(this, [newChild]);
     };
-  };
+  }
 
   overrideInsertBefore() {
-    Element.prototype.insertBefore = <T extends Node>(newChild: any, refChild: Node | null): any => {
+    const {buffer, options} = this;
+    Element.prototype.insertBefore = function <T extends Node>(newChild: any, refChild: Node | null): any {
       if (newChild.tagName === 'SCRIPT') {
-        //console.log('Inserting:', args);
-        for (let key in this.options.services) {
+        console.log('Inserting:', newChild, buffer);
+        for (let key in options.services) {
           // Did user opt-in?
-          if (this.options.services[key].type === 'dynamic-script') {
-            if (newChild.outerHTML.indexOf(this.options.services[key].search) >= 0) {
-              if (this.options.categories[this.options.services[key].category].wanted === false) {
-                this.buffer.insertBefore.push({
+          if (options.services[key].type === 'dynamic-script') {
+            if (newChild.outerHTML.indexOf(options.services[key].search) >= 0) {
+              if (options.categories[options.services[key].category].wanted === false) {
+                buffer.insertBefore.push({
                   this: this,
-                  category: this.options.services[key].category,
+                  category: options.services[key].category,
                   arguments: [newChild, refChild],
                 });
                 return undefined;

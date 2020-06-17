@@ -6,22 +6,22 @@ import Interface from './Interface';
 import Base from './Base';
 import RemoveCookies from './RemoveCookies';
 
-export default class CookieConsent extends Base {
+export default class Scio extends Base {
+  wrapper: ((name: string | undefined, callback: () => void) => void) | undefined;
   constructor(configObject: any) {
     super(configObject);
 
-    this.init(configObject);
+    this.init();
   }
 
-  init(configObject: any) {
-    // new Configuration(configObject);
+  init() {
     console.log('init-----');
 
-    const removeCookies = new RemoveCookies(configObject);
-    const insertScriptFilter = new InsertScriptFilter(configObject);
-    const scriptTagFilter = new ScriptTagFilter(configObject);
-    const wrapperFilter = new WrapperFilter(configObject);
-    const localCookieFilter = new LocalCookieFilter(configObject);
+    const removeCookies = new RemoveCookies(this.options);
+    const insertScriptFilter = new InsertScriptFilter(this.options);
+    const scriptTagFilter = new ScriptTagFilter(this.options);
+    const wrapperFilter = new WrapperFilter(this.options);
+    const localCookieFilter = new LocalCookieFilter(this.options);
 
     removeCookies.init();
     insertScriptFilter.init();
@@ -29,8 +29,8 @@ export default class CookieConsent extends Base {
     wrapperFilter.init();
     localCookieFilter.init();
 
-    const UI = new Interface();
-
+    const UI = new Interface(this.options);
+    this.wrapper = wrapperFilter.wrapper;
     UI.buildInterface(() => {
       UI.addEventListeners();
     });

@@ -1,8 +1,12 @@
 import Filter from './Filter';
 
+type Wrapper = (name: string | undefined, callback: () => void) => void;
+
 export default class WrapperFilter extends Filter {
+  wrapper: Wrapper;
   constructor(options = {}) {
     super(options);
+    this.wrapper = function () {};
   }
 
   init() {
@@ -17,7 +21,6 @@ export default class WrapperFilter extends Filter {
         callback();
       }
     }
-
     this.wrapper = wrapper;
   }
 }

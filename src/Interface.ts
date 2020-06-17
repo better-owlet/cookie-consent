@@ -111,20 +111,21 @@ export default class Interface extends Base {
     );
   }
 
-  buildModal = () => {
+  buildModal() {
+    const {options} = this;
     // Cookie names list middleware
-    var listCookies = (category: string) => {
+    var listCookies = function (category: string) {
       var list = [];
 
-      for (let service in this.options.services) {
-        this.options.services[service].category === category && list.push(this.options.services[service]);
+      for (let service in options.services) {
+        options.services[service].category === category && list.push(options.services[service]);
       }
 
       if (list.length) {
         var listItems = [];
 
         for (let item in list) {
-          listItems.push(el('li', Language.getTranslation(list[item], this.options.language.current, 'name')));
+          listItems.push(el('li', Language.getTranslation(list[item], options.language.current, 'name')));
         }
 
         return [
@@ -132,7 +133,7 @@ export default class Interface extends Base {
             'div.ccm__list',
             el(
               'span.ccm__list__title',
-              Language.getTranslation(this.options, this.options.language.current, 'modalAffectedSolutions'),
+              Language.getTranslation(options, options.language.current, 'modalAffectedSolutions'),
             ),
             el('ul', listItems),
           ),
@@ -140,18 +141,18 @@ export default class Interface extends Base {
       }
     };
 
-    const modalTabGroups = () => {
+    function modalTabGroups() {
       let contentItems = [];
 
       let i = 0;
-      for (let key in this.options.categories) {
+      for (let key in options.categories) {
         contentItems.push(
           el(
-            'dl.ccm__tabgroup' + '.' + key + (this.options.categories[key].checked ? '.checked-5jhk' : ''),
+            'dl.ccm__tabgroup' + '.' + key + (options.categories[key].checked ? '.checked-5jhk' : ''),
             {'data-category': key},
             el(
               'dt.ccm__tab-head',
-              Language.getTranslation(this.options.categories[key], this.options.language.current, 'name'),
+              Language.getTranslation(options.categories[key], options.language.current, 'name'),
               el(
                 'a.ccm__tab-head__icon-wedge',
                 el(
@@ -178,10 +179,10 @@ export default class Interface extends Base {
               'dd.ccm__tab-content',
               el(
                 'div.ccm__tab-content__left',
-                !this.options.categories[key].needed
+                !options.categories[key].needed
                   ? el(
                       'div.ccm__switch-component',
-                      el('div.status-off', Language.getTranslation(this.options, this.options.language.current, 'off')),
+                      el('div.status-off', Language.getTranslation(options, options.language.current, 'off')),
                       el(
                         'div.ccm__switch-group',
                         el(
@@ -189,22 +190,19 @@ export default class Interface extends Base {
                           el('input.category-onoff', {
                             type: 'checkbox',
                             'data-category': key,
-                            checked: this.options.categories[key].checked,
+                            checked: options.categories[key].checked,
                           }),
                           el('span.ccm__switch__slider'),
                         ),
                       ),
-                      el('div.status-on', Language.getTranslation(this.options, this.options.language.current, 'on')),
+                      el('div.status-on', Language.getTranslation(options, options.language.current, 'on')),
                     )
                   : '',
               ),
               el(
                 'div.right',
-                el('h3', Language.getTranslation(this.options.categories[key], this.options.language.current, 'name')),
-                el(
-                  'p',
-                  Language.getTranslation(this.options.categories[key], this.options.language.current, 'description'),
-                ),
+                el('h3', Language.getTranslation(options.categories[key], options.language.current, 'name')),
+                el('p', Language.getTranslation(options.categories[key], options.language.current, 'description')),
                 el('div.ccm__list', listCookies(key) || ''),
               ),
             ),
@@ -215,7 +213,7 @@ export default class Interface extends Base {
       }
 
       return contentItems;
-    };
+    }
 
     return el(
       'div#cconsent-modal',
@@ -223,19 +221,19 @@ export default class Interface extends Base {
         'div.ccm__content',
         el(
           'div.ccm__content__heading',
-          el('h2', Language.getTranslation(this.options, this.options.language.current, 'modalMainTitle')),
+          el('h2', Language.getTranslation(options, options.language.current, 'modalMainTitle')),
           el(
             'p',
-            Language.getTranslation(this.options, this.options.language.current, 'modalMainText'),
-            this.options.modalMainTextMoreLink
+            Language.getTranslation(options, options.language.current, 'modalMainText'),
+            options.modalMainTextMoreLink
               ? el(
                   'a',
                   {
-                    href: this.options.modalMainTextMoreLink,
+                    href: options.modalMainTextMoreLink,
                     target: '_blank',
                     rel: 'noopener noreferrer',
                   },
-                  Language.getTranslation(this.options, this.options.language.current, 'modalMainTitle'),
+                  Language.getTranslation(options, options.language.current, 'modalMainTitle'),
                 )
               : '',
           ),
@@ -246,16 +244,13 @@ export default class Interface extends Base {
           'div.ccm__footer',
           el(
             'button#ccm__footer__consent-modal-submit',
-            Language.getTranslation(this.options, this.options.language.current, 'modalBtnSave'),
+            Language.getTranslation(options, options.language.current, 'modalBtnSave'),
           ),
-          el(
-            'button.consent-give',
-            Language.getTranslation(this.options, this.options.language.current, 'modalBtnAcceptAll'),
-          ),
+          el('button.consent-give', Language.getTranslation(options, options.language.current, 'modalBtnAcceptAll')),
         ),
       ),
     );
-  };
+  }
 
   modalRedrawIcons() {
     var tabGroups = this.elements['modal'] && this.elements['modal'].querySelectorAll('.ccm__tabgroup');
@@ -292,19 +287,19 @@ export default class Interface extends Base {
     }
   }
 
-  buildInterface = (callback: () => void) => {
+  buildInterface(callback: () => void) {
     if (typeof callback === 'undefined') callback = function () {};
     var that = this;
 
-    Utilities.ready(() => {
+    Utilities.ready(function () {
       that.render('style', that.buildStyle());
 
       that.render('bar', that.buildBar(), bar => {
         // Show the bar after a while
-        if (!this.options.cookieExists) {
+        if (!that.options.cookieExists) {
           setTimeout(() => {
             bar.classList.remove('ccb--hidden');
-          }, this.options.barTimeout);
+          }, that.options.barTimeout);
         }
       });
 
@@ -312,7 +307,7 @@ export default class Interface extends Base {
 
       callback();
     });
-  };
+  }
 
   addEventListeners() {
     // If you click Accept all cookies
@@ -321,9 +316,20 @@ export default class Interface extends Base {
     for (let button of Array.prototype.slice.call(buttonConsentGive)) {
       button.addEventListener('click', () => {
         // We set config to full consent
+        console.log('buttonConsentGive this.options', this.options);
         for (let key in this.options.categories) {
           this.options.categories[key].wanted = this.options.categories[key].checked = true;
+          console.log(key, this.options.categories);
+          // this.setConfiguration({
+          //   categories: {
+          //     [key]: {
+          //       wanted: true,
+          //       checked: true,
+          //     },
+          //   },
+          // });
         }
+        console.log('sss');
 
         this.writeBufferToDOM();
 
@@ -453,7 +459,7 @@ export default class Interface extends Base {
       };
     }
 
-    cookie.services = Utilities.listGlobalServices();
+    cookie.services = Utilities.listGlobalServices(this.options.services);
 
     if (callback) callback(cookie);
     return cookie;
