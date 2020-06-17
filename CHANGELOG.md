@@ -1,5 +1,12 @@
 CHANGELOG
 
+## [1.0.2](https://github.com/anowlet/cookie-consent/compare/v1.0.1...v1.0.2) (2020-06-17)
+
+
+### Bug Fixes
+
+* use configObject ([37b5204](https://github.com/anowlet/cookie-consent/commit/37b5204550adb83045c89ced35903ec1cc595f40))
+
 ## [1.0.1](https://github.com/anowlet/cookie-consent/compare/v1.0.0...v1.0.1) (2020-06-17)
 
 
