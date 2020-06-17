@@ -1,6 +1,6 @@
 {
   "name": "cookie-consent",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "",
   "keywords": [],
   "main": "dist/cookie-consent.umd.js",
