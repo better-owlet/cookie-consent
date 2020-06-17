@@ -17,6 +17,11 @@
       }
     ],
     "@semantic-release/git",
-    "@semantic-release/github"
+    ["@semantic-release/github", {
+      "assets": [
+        {"path": "dist/cookie-consent.esm.js", "label": "JS ES"},
+        {"path": "dist/cookie-consent.umd.js", "label": "JS UMD"}
+      ]
+    }],
   ]
 }
